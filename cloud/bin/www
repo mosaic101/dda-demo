@@ -7,7 +7,7 @@
 const app = require('../app')
 const debug = require('debug')('cloud:server')
 const http = require('http')
-const https = require('https')
+const fs = require('fs')
 
 /**
  * Get port from environment and store in Express.
