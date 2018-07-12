@@ -3,22 +3,22 @@ const fs = require('fs')
 const path = require('path')
 
 const options = {
-  key: fs.readFileSync(path.join(process.cwd(), '../testdata/ssl/ca-key.pem')),
-  cert: fs.readFileSync(path.join(process.cwd(),'../testdata/ssl/ca-cert.pem')),
+  
+  key: fs.readFileSync(path.join(process.cwd(), 'testdata/ssl/server-key.pem')),
+  cert: fs.readFileSync(path.join(process.cwd(),'testdata/ssl/server-cert.pem')),
 
   // This is necessary only if using the client certificate authentication.
-  requestCert: true,
-  // This option only has an effect when requestCert is true and defaults to true.
-  // rejectUnauthorized: true,
+  requestCert: false,
 
-  ca: [ fs.readFileSync(path.join(process.cwd(),'../testdata/ssl/ca-cert.pem')) ]
+  // This is necessary only if the client uses the self-signed certificate.
+  ca: [ fs.readFileSync(path.join(process.cwd(),'testdata/ssl/ca-cert.pem')) ]
 }
 
 let client = null
 
 const server = tls.createServer(options, socket => {
   client = socket
-  // console.log('server connected', socket.authorized ? 'authorized' : 'unauthorized')
+  console.log('server connected', socket.authorized ? 'authorized' : 'unauthorized')
   socket.write(`hello, welcome to server!\n`)
   socket.setEncoding('utf8')
   socket.on('data', data => {
