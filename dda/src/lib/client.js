@@ -8,7 +8,7 @@ const options = {
   method: 'GET',
   key: fs.readFileSync('../../ca/ca-key.pem'),
   // cert: fs.readFileSync('../../ca/ca-cert.pem'),
-  requestCert:true,  // 请求客户端证书
+  requestCert: true,  // 请求客户端证书
   rejectUnauthorized: false // 不拒绝不受信任的证书
 }
 
