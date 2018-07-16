@@ -1,6 +1,10 @@
 const tls = require('tls')
 const fs = require('fs')
 const path = require('path')
+const uuid = require('uuid')
+const ursa = require('ursa')
+const _ = require('lodash')
+const devices = require('../config/devices')
 
 class Cloud {
   constructor() {
@@ -22,10 +26,11 @@ class Cloud {
     const server = tls.createServer(options, socket => {
       this.client = socket
       console.log('server connected', socket.authorized ? 'authorized' : 'unauthorized')
-      socket.write(`hello, welcome to server!\n`)
+      // socket.write(`hello, welcome to server!\n`)
       socket.setEncoding('utf8')
       socket.on('data', data => this.handleDataEvent(data))
       socket.on('error', err => console.log('error', err))
+      socket.on('close', () => console.log('Disconnect', new Error('server closed')))
     })
     
     server.listen(3001, () => {
@@ -33,14 +38,49 @@ class Cloud {
     })
   }
 
+  sendMsg(data) {
+    this.client.write(JSON.stringify(data)) 
+  }
+
   handleDataEvent (data) {
-    console.log(data, Buffer.from(data))
-    const msg = {
-      type: 'connected',
-      // deviceUUID: uuid.v4()
+    // Buffer.from(data)
+    console.log(data.toString('utf8'))
+    data = JSON.parse(data)
+    const { type, value } = data
+    switch (type) {
+      case 'identity':
+        this.client.device = _.find(devices, o => o.id === value)
+        this.client.seed = uuid.v4()
+        this.sendMsg({
+          type: 'challenge',
+          value: this.client.seed
+        })
+        break
+      case 'response':
+        const pub = this.client.device.credential
+        const crt = ursa.createPublicKey(pub)
+        const seed = crt.publicDecrypt(value, 'base64', 'utf8')
+        if (this.client.seed === seed) {
+          // 验证成功后钉盘向DDA设备下发其帐号资源中⽤于通讯的密钥和证书，
+          // ⽤于存储的密钥，然后断开连接； 
+          // ? 存在内存里， 每次登录的时候renew证书跟密钥
+          this.client.end()
+        }
+        break
+      default:
+        return this.destroy()
     }
-    // 云下发随机数挑战
-    // this.client.write(JSON.stringify(msg))
+  }
+
+  exit() {
+    this.client.removeAllListeners()
+    this.client.on('error', () => {})
+    this.client = undefined
+  }
+
+  destroy () {
+    this.exit()
+    this.client.end()
   }
 
 }
