@@ -5,8 +5,8 @@ const path = require('path')
 const uuid = require('uuid')
 const ursa = require('ursa')
 
-const DEVICE_ID = '123456'
-const TPM_KEY = fs.readFileSync(path.join(process.cwd(), `testdata/dda/dda-${DEVICE_ID}.key.pem`))
+const DEVICE_ID = '2f6f7c42-c09d-4001-82fe-0f8f478bd258'
+const TPM_KEY = fs.readFileSync(path.join(process.cwd(), `testdata/dda/dda-123456.key.pem`))
 
 // 在系统启动时
 // 1. DDA设备向钉盘发起TLS/SSL连接，DDA设备会要求服务器具有CA签署的证书；服务器不要求DDA设备提供证书；
@@ -54,7 +54,7 @@ class Channel extends EventEmitter {
 
   handleDataEvent(data) {
     // Buffer.from(data)
-    console.log(data)
+    // console.log(data)
     data = JSON.parse(data.toString('utf8'))
     const { type, value } = data
     switch (type) {
@@ -68,10 +68,14 @@ class Channel extends EventEmitter {
         }
         this.sendMsg(msg)
         break
+      case 'authorization':
+        let device = value.device
+        let deviceToken = value.token
+        console.log(device, deviceToken);
+        break
       default:
         return this.close()
     }
-
   }
 
   handleCloudMessage(message) {}

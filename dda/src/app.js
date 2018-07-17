@@ -1,5 +1,4 @@
 const express = require('express')
-const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
@@ -21,7 +20,7 @@ app.use(function(req, res, next) {
   const err = new Error('Not Found')
   err.status = 404
   res.error(err, 404)
-  next()
+  next() 
 })
 
 // error handler
