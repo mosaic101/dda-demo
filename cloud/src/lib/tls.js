@@ -7,6 +7,7 @@ const ursa = require('ursa')
 
 const { Device } = require('../models')
 
+// TODO: tls map
 class Cloud {
 
   constructor() {
@@ -29,11 +30,10 @@ class Cloud {
       console.log('server connected', socket.authorized ? 'authorized' : 'unauthorized')
       // socket.write(`hello, welcome to server!\n`)
       socket.setEncoding('utf8')
-      socket.on('data', data => this.handleDataEvent(data))
+      socket.  on('data', data => this.handleDataEvent(data))
       socket.on('error', err => console.log('error', err))
       socket.on('close', () => console.log('Disconnect', new Error('server closed')))
     })
-    
     server.listen(3001, () => console.log('server bound'))
   }
 
@@ -45,7 +45,7 @@ class Cloud {
     // Buffer.from(data)
     // console.log(data.toString('utf8'))
     data = JSON.parse(data)
-    const { type, value } = data
+    const { type, value } = data 
     switch (type) {
       case 'identity':
         // get device information from database

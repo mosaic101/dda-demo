@@ -24,7 +24,7 @@ module.exports = (req, res, next) => {
     return res.status(status).json({
       url: req.originalUrl,
       code: 1,
-      message: 'ok',
+      msg: 'ok',
       data: data || null
     })
   }
@@ -60,7 +60,7 @@ module.exports = (req, res, next) => {
     const response = {
       url: req.originalUrl,
       code: code,
-      message: message,
+      msg: message,
       data: data
     }
     // show stack in production environment

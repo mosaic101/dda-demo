@@ -71,6 +71,8 @@ class Channel extends EventEmitter {
       case 'authorization':
         let device = value.device
         let deviceToken = value.token
+        // TODO: global config
+        
         console.log(device, deviceToken);
         break
       default:
