@@ -2,11 +2,13 @@ const request = require('superagent')
 const express = require('express')
 const router = express.Router()
 
+const checkToken = require('../lib/checkToken')
 const CLOUD_BASE_URL = 'http://localhost:3000'
 
 // 下载文件
-router.get('/', (req, res) => {
-  // {
+router.get('/', async (req, res) => {
+  try {
+     // {
   //   "type": "authRequest",
   //   "uuid": "请求的UUID，由DDA设备⽣成",
   //   "request": {
@@ -20,17 +22,15 @@ router.get('/', (req, res) => {
   //   "signature": "客户端使⽤dda的signingKey对request内容的签名"
   //   },
   // }
-  request
-    .post(`${CLOUD_BASE_URL}/v1/users`)
-    .send({
-        phoneNO: '13112345678',
-        password: '123456'
-    })
-    .set('Accept', 'application/json')
-    .end((err, res) => {
-      console.log(err, res.body)
-      token = res.body.data
-    })
+    const options = {
+      clientId: '',
+      ddaToken: ''
+    }
+    const flag = await checkToken(options)
+    if (!flag) return res.error('authrization filed', 401)
+  } catch(err) {
+    return res.error(err)
+  }
 })
 
 /**
@@ -38,52 +38,31 @@ router.get('/', (req, res) => {
  * 明文部分:
  * 加密部分:
  */
-router.post('/', (req, res) => {
-
-  const request = {
-    "type": "authRequest",
-    "uuid": "请求的UUID，由DDA设备⽣成",
-    "request": {
-    "op": "read",
-    "bizType": "",
-    "bizid": "",
-    "objectid": "",
-    "checksum": "⽂件或⽂件块的checksum",
-    "timestamp": "请求的时间戳",
-    "token": "客户端的dda token",
-    "signature": "客户端使⽤dda的signingKey对request内容的签名"
-    },
-  }
-  const qs = {
-    fileuuid: 's',
-
-  }
-  // {
-  //   "type": "authRequest",
-  //   "uuid": "请求的UUID，由DDA设备⽣成",
-  //   "request": {
-  //   "op": "read",
-  //   "bizType": "",
-  //   "bizid": "",
-  //   "objectid": "",
-  //   "checksum": "⽂件或⽂件块的checksum",
-  //   "timestamp": "请求的时间戳",
-  //   "token": "客户端的dda token",
-  //   "signature": "客户端使⽤dda的signingKey对request内容的签名"
-  //   },
-  // }
-  request
-    .post(`${CLOUD_BASE_URL}/v1/users`)
-    .send({
-        phoneNO: '13112345678',
-        password: '123456'
-    })
-    .set('Accept', 'application/json')
-    .end((err, res) => {
-      console.log(err, res.body);
-      // TODO: 获取 cloudToken、ddaToken
-      token = res.body.data
-    })
+router.post('/', async (req, res) => {
+  try {
+    // {
+ //   "type": "authRequest",
+ //   "uuid": "请求的UUID，由DDA设备⽣成",
+ //   "request": {
+ //   "op": "read",
+ //   "bizType": "",
+ //   "bizid": "",
+ //   "objectid": "", 
+ //   "checksum": "⽂件或⽂件块的checksum",
+ //   "timestamp": "请求的时间戳",
+ //   "token": "客户端的dda token",
+ //   "signature": "客户端使⽤dda的signingKey对request内容的签名"
+ //   },
+ // }
+   const options = {
+     clientId: '',
+     ddaToken: ''
+   }
+   const flag = await checkToken(options)
+   if (!flag) return res.error('authrization filed', 401)
+ } catch(err) {
+   return res.error(err)
+ }
 })
 
 module.exports = router

@@ -57,7 +57,7 @@ class Channel extends EventEmitter {
     // console.log(data)
     data = JSON.parse(data.toString('utf8'))
     const { type, value } = data
-    switch (type) {
+    switch (type) { 
       case 'challenge':
         // DDA设备⽤设备密钥计算结果并应答
         const key = ursa.coercePrivateKey(TPM_KEY)
@@ -72,7 +72,7 @@ class Channel extends EventEmitter {
         let device = value.device
         let deviceToken = value.token
         // TODO: global config
-        
+
         console.log(device, deviceToken);
         break
       default:
@@ -83,6 +83,10 @@ class Channel extends EventEmitter {
   handleCloudMessage(message) {}
 
   sendToken() {}  
+
+  close() {
+    this.socket.end()
+  }
 }
 
 new Channel(3001, 'localhost')
