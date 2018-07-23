@@ -23,8 +23,7 @@ const mongodb = mongoose.connection
 mongodb.on('error', err => debug(`connection error:${err}`))
 mongodb.once('open', () => debug('mongodb connect successfully'))
 
-let db = {}
-
+let db = {} 
 fs
   .readdirSync(__dirname)
   .filter(function (file) {

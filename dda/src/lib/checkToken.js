@@ -27,5 +27,5 @@ module.exports = async options => {
       ddaToken: options.ddaToken
     })
     .set('Accept', 'application/json')
-  console.log(res.body)
+  return (res.status === 200 && !!res.body.data.checked) ? true : false
 }
