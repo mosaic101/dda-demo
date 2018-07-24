@@ -8,7 +8,8 @@ const DeviceSchema = new Schema({
   credential: { type: String, required: true },
   privateKey: String,
   cert: String,
-  storageKey: String
+  storageKey: String,
+  signingKey: { type: String, required: true }
 }, {
   timestamps: true,
 })

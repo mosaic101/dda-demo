@@ -72,7 +72,8 @@ class Channel extends EventEmitter {
         let device = value.device
         let deviceToken = value.token
         // TODO: global config
-
+        global.device = value.device
+        gliobal.ddaToken = value.token
         console.log(device, deviceToken);
         break
       default:

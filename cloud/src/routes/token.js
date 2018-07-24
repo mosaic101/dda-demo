@@ -4,11 +4,13 @@ const router = express.Router()
 const { User, Device } = require('../models')
 const SECRET = 'DDA'
 
+// check authrizaiton for dda
 router.post('/check', async (req, res) => {
   try {
-    const { clientId, ddaToken } = req.body
+    const { deviceId, ddaToken } = req.body
+    console.log(deviceId);
     let checked = false
-    const user = await User.findOne({ _id: clientId }).lean()
+    const user = await Device.findOne({ _id: deviceId }).lean()
     if (user) checked = true 
     res.success({ checked })
   } catch(err) {

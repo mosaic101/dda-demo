@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-router.use('/v1/files', require('./file'))
+const auth = require('../middlewares/auth')
+
+router.use('/v1/files', auth(), require('./file'))
 
 module.exports = router

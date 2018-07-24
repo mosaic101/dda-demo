@@ -9,8 +9,8 @@ const UserSchema = new Schema({
   avatarUrl: String,
   phoneNO: { type: String, required: true },
   password: { type: String, required: true },
-  ddaToken: { type: String, required: true },
-  signingKey: { type: String, required: true }
+  // ddaToken: { type: String, required: true },
+  deivces: [{ type: String, ref: 'Device' }]
 }, {
   timestamps: true,
 })
