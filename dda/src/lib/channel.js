@@ -69,27 +69,20 @@ class Channel extends EventEmitter {
         this.sendMsg(msg)
         break
       case 'authorization':
-        let device = value.device
-        let deviceToken = value.token
-        // TODO: global config
-        global.device = value.device
-        gliobal.ddaToken = value.token
-        console.log(device, deviceToken);
+        // global config
+        global.deviceId = value.deviceId
+        this.close()
         break
       default:
         return this.close()
     }
   }
 
-  handleCloudMessage(message) {}
-
-  sendToken() {}  
-
   close() {
     this.socket.end()
   }
 }
 
-new Channel(3001, 'localhost')
 
-module.exports = Channel
+
+module.exports = new Channel(3001, 'localhost')

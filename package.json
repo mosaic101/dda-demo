@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "cloud": "node_modules/.bin/nodemon cloud/src/bin/www",
-    "dda": "node_modules/.bin/nodemon dda/src/bin/www"
+    "dda": "node_modules/.bin/nodemon dda/src/bin/www",
+    "test": "NODE_PATH=./dda node_modules/.bin/nodemon --exec mocha  --recursive dda/test/api"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

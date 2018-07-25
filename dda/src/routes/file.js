@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
         'bizid': '', // 明文
         'objectid': '', // 明文
         'checksum': '⽂件或⽂件块的checksum', // 明文
-        encrypted: {
+        encrypted: { 
           timestamp: '请求的时间戳',
           token: '客户端的dda token',
           signature: '客户端使⽤dda的signingKey对request内容的签名'
@@ -36,8 +36,7 @@ router.get('/', async (req, res) => {
     //   "body": {
     //   }
     //   }
-    // TODO: download file
-    return res.success()
+    return res.success('download file success')
   } catch (err) {
     return res.error(err)
   }
@@ -46,8 +45,7 @@ router.get('/', async (req, res) => {
 // 上传文件
 router.post('/', async (req, res) => {
   try {
-    // TODO: upload file
-    return res.success()
+    return res.success('upload file success')
   } catch (err) {
     return res.error(err)
   }

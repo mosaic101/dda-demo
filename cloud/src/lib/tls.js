@@ -49,7 +49,7 @@ class Cloud {
     switch (type) {
       case 'identity':
         // get device information from database
-        const device = await Device.findOne({ _id: value }).lean()
+        const device = await Device.findOne({ _id: value }).select('_id credential').lean()
         if (!device) return this.client.end()
         this.client.device = device
         this.client.seed = uuid.v4()
@@ -65,17 +65,14 @@ class Cloud {
         // 验证成功后钉盘向DDA设备下发其帐号资源中⽤于通讯的密钥、证书、token、⽤于存储的密钥，然后断开连接； 
         // DDA 将之存于内存， 每次登录的时候 renew 证书、密钥
         if (this.client.seed === seed) {
-          const token = jwt.encode({ device: this.client.device, exp: Date.now() + 1000 * 3600 * 24 * 30 }, 'DDA')
-          // TODO: update device status、 ddaToken 
-
+          // update device status、 ddaToken 
           this.sendMsg({
             type: 'authorization',
             value: {
-              device: this.client.device,
-              token: token
+              deviceId: this.client.device._id,
+              // token: token
             }
           })
-          this.client.end()
         }
         break
       default:
@@ -96,4 +93,4 @@ class Cloud {
 
 }
 
-new Cloud()
+module.exports = new Cloud()

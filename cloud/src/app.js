@@ -1,3 +1,4 @@
+require('./lib/tls')
 // init mongo
 require('./models')
 
