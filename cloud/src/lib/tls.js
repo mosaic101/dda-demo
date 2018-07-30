@@ -41,7 +41,7 @@ class Cloud {
     this.client.write(JSON.stringify(data)) 
   }
 
-  async handleDataEvent (data) {
+  async handleDataEvent(data) {
     // Buffer.from(data)
     // console.log(data.toString('utf8'))
     data = JSON.parse(data)
@@ -66,7 +66,7 @@ class Cloud {
         // DDA 将之存于内存， 每次登录的时候 renew 证书、密钥
         if (this.client.seed === seed) {
           // update device status、 ddaToken 
-          this.sendMsg({
+          return this.sendMsg({
             type: 'authorization',
             value: {
               deviceId: this.client.device._id,
@@ -74,7 +74,6 @@ class Cloud {
             }
           })
         }
-        break
       default:
         return this.destroy()
     }
@@ -82,7 +81,7 @@ class Cloud {
 
   exit() {
     this.client.removeAllListeners()
-    this.client.on('error', () => {})
+    this.client.on('error', () => {}) 
     this.client = undefined
   }
 
@@ -92,5 +91,6 @@ class Cloud {
   }
 
 }
+
 
 module.exports = new Cloud()

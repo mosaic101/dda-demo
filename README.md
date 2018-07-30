@@ -7,6 +7,11 @@ ding drive accelerator demo.
 
 ## 使用
 
+insert 数据
+```
+node cloud/src/init_db.js
+```
+
 运行 cloud
 ```bash
 npm run cloud
@@ -21,3 +26,9 @@ npm run dda
 ```bash
 npm run test
 ```
+
+## 流程
+Client 访问 DDA：
+1. 明文： clientId、 request
+2. token： ddaToken
+3. 密文： encryptedData
