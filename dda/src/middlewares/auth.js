@@ -10,7 +10,7 @@ module.exports = () => {
       const ddaToken = req.headers.authorization
       const { clientId } = req.query
       const response = await request
-        .post(`${CLOUD_BASE_URL}/v1/token/check`)
+        .post(`${CLOUD_BASE_URL}/d/v1/token/check`)
         .send({
           clientId,
           deviceId,

@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-router.use('/c', require('./c'))
-router.use('/d', require('./d'))
+router.use('/v1/token', require('./token'))
 
 module.exports = router

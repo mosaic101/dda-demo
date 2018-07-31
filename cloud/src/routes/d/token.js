@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const jwt = require('../lib/jwt')
-const { User, Device } = require('../models')
+const jwt = require('../../lib/jwt')
+const { User, Device } = require('../../models')
 
 // check authrizaiton for dda
 router.post('/check', async (req, res) => {

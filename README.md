@@ -29,6 +29,8 @@ npm run test
 
 ## 流程
 Client 访问 DDA：
-1. 明文： clientId、 request
-2. token： ddaToken
-3. 密文： encryptedData
+1. 明文部分： clientId、 request
+2. 密文部分： encryptedData
+3. 请求头部： ddaToken
+
+在访问 DDA 之前，DDA会将 Client 传过来的 ddaToken 与 clientId 请求 Cloud 检验是否有权限。
